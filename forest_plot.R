@@ -22,28 +22,13 @@ forest_plot <- function(meta_out,
   }
   
   if (!altplot) {
-    lab <- paste(
-      "\n",
-      "Total events:",
-      paste(sum(dat$n1)),
-      "(Spikevax), ",
-      paste(sum(dat$n2)),
-      "(Comirnaty) ",
-      "\n",
-      "Heterogeneity: Chi²=",
-      paste(round(meta_out$QE, 2)),
-      ", df=",
-      paste(meta_out$k - 1),
-      paste("(P= ", round(meta_out$QEp, 2), "),", sep = ""),
-      "I²=",
-      paste(
-        paste(round(meta_out$I2, 1), "%", sep = ""),
-        "\n",
-        "Test for overall effect: Z=",
-        paste(paste(round(meta_out$zval, 2), sep = ""),
-              paste("(P= ", round(meta_out$pval, 4), "),", sep = ""))
-      )
-    )
+    lab <- glue(
+     "\nTotal events: {sum(dat$n1)} (Spikevax), {sum(dat$n2)} (Comirnaty) \n",
+     "Heterogeneity: Chi²={round(meta_out$QE, 2)}, df={meta_out$k - 1} ",
+     "(P= {round(meta_out$QEp, 2)}), I²={round(meta_out$I2, 1)}% \n",
+     "Test for overall effect: Z={round(meta_out$zval, 2)} ",
+     "(P= {round(meta_out$pval, 4)})"
+   )
     
     ev1 <- data.frame(paste(paste(dat2$n1), "/", paste(dat2$N1)))
     ev2 <- data.frame(paste(paste(dat2$n2), "/", paste(dat2$N2)))
