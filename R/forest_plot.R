@@ -2,8 +2,8 @@
 
 #' Custom Forest Plot
 #' 
-#' @param meta_out 
-#' @param save 
+#' @param meta_out Output of metafor::rma
+#' @param save Logical
 #' @param altplot Alternative plot
 #' @param dpi Dots per inch
 #' @param plot_top 
@@ -113,7 +113,7 @@ forest_plot <- function(meta_out,
     ev1 <- data.frame(paste(paste(dat2$n1), "/", paste(dat2$N1)))
     ev2 <- data.frame(paste(paste(dat2$n2), "/", paste(dat2$N2)))
     
-    # combine labels for both arms with label on immunocompromising condition
+    # combine labels for both arms with label on condition
     ev <-
       # cbind.data.frame(data.frame(c(ev1, ev2)), dat2$type) |>
       cbind.data.frame(data.frame(c(ev1, ev2)), "type") |>
@@ -143,7 +143,8 @@ forest_plot <- function(meta_out,
     # modify ilab.xpos argument to position the columns in ev argument
     
     #### -> wi is the inverse variance (proportional to standard error)
-    # Used for graphing of the blue box in forest plot. big box = less uncertainty
+    # Used for graphing of the blue box in forest plot
+    # big box = less uncertainty
     wi <- 1 / sqrt(meta_out$vi)
     psize <- wi / sum(wi)
     psize <- (psize - min(psize)) / (max(psize) - min(psize))
@@ -177,8 +178,6 @@ forest_plot <- function(meta_out,
       )
     )
     
-    # the object meta_out contains all results of the meta-analysis which
-    # will be shown in graphical display
     points(
       meta_out$yi,
       n_bin:1,
