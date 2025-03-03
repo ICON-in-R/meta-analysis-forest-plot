@@ -23,6 +23,8 @@ forest_plot <- function(meta_out,
                         width = 12,
                         height = 11,
                         title_text = "My Title",
+                        ref = "X",
+                        comp = "Y",
                         filename = "forest.png") {
   
   if (save) {
@@ -38,7 +40,7 @@ forest_plot <- function(meta_out,
   
   if (!altplot) {
     lab <- glue(
-      "\nTotal events: {sum(dat$n1)} (X), {sum(dat$n2)} (Y) \n",
+      "\nTotal events: {sum(dat$n1)} ({ref}), {sum(dat$n2)} ({comp}) \n",
       "Heterogeneity: Chi²={round(meta_out$QE, 2)}, df={meta_out$k - 1} ",
       "(P= {round(meta_out$QEp, 2)}), I²={round(meta_out$I2, 1)}% \n",
       "Test for overall effect: Z={round(meta_out$zval, 2)} ",
@@ -79,8 +81,13 @@ forest_plot <- function(meta_out,
     op <- par(font = 3)
     par(op)
     
-    text(-3, -1.8, expression(italic("favours X")), cex = 0.75)
-    text(5, -1.8, expression(italic("favours Y")), cex = 0.75)
+    ref_txt <- glue::glue("favours {ref}")
+    comp_txt <- glue::glue("favours {comp}")
+    
+    print(comp_txt)
+    
+    text(-3, -1.8, bquote(italic(.(ref_txt))), cex = 0.75)
+    text(5, -1.8, bquote(italic(.(comp_txt))), cex = 0.75)
     
     # grid.text("COVID-19 Death Spikevax vs. Comirnaty", 0.5, 1,
     #           gp = gpar(cex = 1.5))
@@ -88,7 +95,7 @@ forest_plot <- function(meta_out,
     
     text(-30, n_studies + 2, "Study")
     text(-30, n_studies + 1.5, "(nRCTs)")
-    text(c(-18, -10, 10), n_studies + 2, c("X", "Y", "Type"))
+    text(c(-18, -10, 10), n_studies + 2, c(ref, comp, "Type"))
     text(c(-18, -10), n_studies + 1.5, c("n/N", "n/N"))
     text(19, n_studies + 1.5, "Weight")
     text(25, n_studies + 1.5, "Random \n Effects")
@@ -104,7 +111,7 @@ forest_plot <- function(meta_out,
     
     # create label for forest plot
     lab <- glue(
-      "\nTotal events: {sum(dat2$n1)} (X), {sum(dat2$n2)} (Y) \n",
+      "\nTotal events: {sum(dat2$n1)} ({ref}), {sum(dat2$n2)} ({comp}) \n",
       "Heterogeneity: Chi²={round(meta_out$QE, 2)}, df={meta_out$k - 1} ",
       "(P= {round(meta_out$QEp, 2)}), I²={round(meta_out$I2, 1)}% \n",
       "Test for overall effect: Z={round(meta_out$zval, 2)} ",
