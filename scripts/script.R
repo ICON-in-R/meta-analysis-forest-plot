@@ -49,6 +49,9 @@ data2 <- data.frame(
 
 dat2 <- bind_rows(dat, data2)
 
+save(dat2, file = "data/dat2.RData")
+write.csv(dat2, file = "data/dat2.csv")
+
 meta1 <- metafor::rma(yi, vi, data = dat2, method = "DL")
 
 #########

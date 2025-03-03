@@ -7,7 +7,7 @@
 #' @param altplot Alternative plot
 #' @param dpi Dots per inch
 #' @param plot_top 
-#' @param title_line 
+#' @param title_line specifying a value for line overrides the default placement of labels, and places them this many lines outwards from the plot edge.
 #' @param width 
 #' @param height 
 #'
@@ -28,6 +28,8 @@ forest_plot <- function(meta_out,
   if (save) {
     png(glue::glue("plots/{filename}"), width = width*dpi, height = height*dpi, res = dpi)
     on.exit(dev.off())
+  } else if (shiny::isRunning()) {
+    #
   } else {
     dev.new(width = width,
             height = height,
